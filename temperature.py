@@ -6,9 +6,6 @@ import json
 def getWeatherData(city, units="standard"):
     url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=" + units
     weather = urllib.request.urlopen(url).read()
-    return weather
-
-def weatherToJson(weather):
     weatherString = weather.decode("utf-8")
     weatherJson = json.loads(weatherString)
     return weatherJson
@@ -55,5 +52,4 @@ else:
         units = "metric"
         
     weather = getWeatherData(city, units)
-    weather = weatherToJson(weather)
     printTemp(weather, units)
