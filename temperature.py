@@ -16,17 +16,17 @@ def weatherToJson(weather):
 def printTemp(data, units):
     temp = data['main']['temp']
     if units == "standard":
-        unit = "Kelvin degrees"
+        unitString = "Kelvin degrees"
     elif units == "metric":
-        unit = "Celsius degrees"
-    elif units == "imperial":
-        unit = "Fahrenheit degrees"
+        unitString = "Celsius degrees"
+    elif units== "imperial":
+        unitString = "Fahrenheit degrees"
 
-    print(str(temp) + " " + unit)
+    print(str(temp) + " " + unitString)
     return
 
 def help():
-    print("First argument: City name, e.g. Cairo,EG")
+    print("First mandatory argument: City name, e.g. Cairo,EG or Helsinki")
     print("Second optional argument: [standard, metric, imperial]")
 
 if len(sys.argv) < 2 or len(sys.argv) > 3:
@@ -37,7 +37,7 @@ else:
     if len(sys.argv) == 3:
         units = str(sys.argv[2])
     else:
-        units = "standard"
+        units = "metric"
         
     weather = getWeatherData(city, units)
     weather = weatherToJson(weather)
