@@ -39,17 +39,12 @@ if len(sys.argv) < 2 or len(sys.argv) > 3:
 else:
     city = str(sys.argv[1])
     
+    units = "metric"
     if len(sys.argv) == 3:
-        if sys.argv[2][0] == "s":
+        if sys.argv[2].startswith("s"):
             units = "standard";
-        elif sys.argv[2][0] == "m":
-            units = "metric";
-        elif sys.argv[2][0] == "i":
+        elif sys.argv[2].startswith("i"):
             units = "imperial"
-        else:
-            help()
-    else:
-        units = "metric"
         
     weather = getWeatherData(city, units)
     printTemp(weather, units)
