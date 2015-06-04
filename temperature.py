@@ -14,15 +14,22 @@ def weatherToJson(weather):
     return weatherJson
 
 def printTemp(data, units):
-    temp = data['main']['temp']
-    if units == "standard":
-        unitString = "Kelvin degrees"
-    elif units == "metric":
-        unitString = "Celsius degrees"
-    elif units== "imperial":
-        unitString = "Fahrenheit degrees"
+    if data['cod'] == "404":
+        print("City not found.")
+        return
 
-    print(str(temp) + " " + unitString)
+    if units == "standard":
+        unitString = "°K"
+    elif units == "metric":
+        unitString = "°C"
+    elif units == "imperial":
+        unitString = "°F"
+
+    temp = data['main']['temp']
+    humidity = data['main']['humidity']
+
+    print("Temperature: " + str(int(temp)) + unitString)
+    print("Humidity: " + str(humidity) + "%")
     return
 
 def help():
