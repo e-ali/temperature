@@ -34,7 +34,8 @@ def printTemp(data, units):
 
 def help():
     print("First mandatory argument: City name, e.g. Cairo,EG or Helsinki")
-    print("Second optional argument: [standard, metric, imperial]")
+    print("Second optional argument: [s]tandard, [m]etric, [i]mperial")
+    sys.exit(-1)
 
 if len(sys.argv) < 2 or len(sys.argv) > 3:
     help()
@@ -42,7 +43,14 @@ else:
     city = str(sys.argv[1])
     
     if len(sys.argv) == 3:
-        units = str(sys.argv[2])
+        if sys.argv[2][0] == "s":
+            units = "standard";
+        elif sys.argv[2][0] == "m":
+            units = "metric";
+        elif sys.argv[2][0] == "i":
+            units = "imperial"
+        else:
+            help()
     else:
         units = "metric"
         
