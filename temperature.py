@@ -34,6 +34,13 @@ def help():
     print("First mandatory argument: City name, e.g. Cairo,EG or Helsinki")
     print("Second optional argument: [s]tandard, [m]etric, [i]mperial")
 
+def daemonize(city, units):
+    while True:
+        weather = getWeatherData(city, units)
+        printTemp(weather, units)
+        time.sleep(10)
+    return
+
 def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hc:smid", ["city="])
@@ -62,11 +69,11 @@ def main():
         help()
         sys.exit(2)
 
-    weather = getWeatherData(city, units)
-    printTemp(weather, units)
-    return
-
-def daemonize():
+    if daemon:
+        daemonize(city, units);
+    else:
+        weather = getWeatherData(city, units)
+        printTemp(weather, units)
     return
 
 if __name__ == "__main__":
