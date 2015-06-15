@@ -5,16 +5,19 @@ import time
 import sys
 import urllib.request
 
+def help():
+    print("First mandatory argument: City name, e.g. Cairo,EG or Helsinki")
+    print("Second optional argument: [s]tandard, [m]etric, [i]mperial")
+
 def getWeatherData(city, units="standard"):
     url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=" + units
     weather = urllib.request.urlopen(url).read()
     weather = weather.decode("utf-8")
     return json.loads(weather)
 
-def printTemp(data, units):
+def weatherString(data, units):
     if data['cod'] == "404":
-        print("City not found.")
-        return
+        return "City not found."
 
     if units == "standard":
         unitString = "°K"
@@ -26,18 +29,17 @@ def printTemp(data, units):
     temp = data['main']['temp']
     humidity = data['main']['humidity']
 
-    print("Temperature: " + str(int(temp)) + unitString)
-    print("Humidity: " + str(humidity) + "%")
-    return
-
-def help():
-    print("First mandatory argument: City name, e.g. Cairo,EG or Helsinki")
-    print("Second optional argument: [s]tandard, [m]etric, [i]mperial")
+    weather = "Temperature: " + str(int(temp)) + unitString + "\n"
+    weather += "Humidity: " + str(humidity) + "%"
+    return weather
 
 def daemonize(city, units):
     while True:
         weather = getWeatherData(city, units)
-        printTemp(weather, units)
+        f = open('forecast', 'w')
+        forecast = weatherString(weather, units)
+        if forecast:
+            f.write(forecast)
         time.sleep(10)
     return
 
@@ -64,6 +66,8 @@ def main():
             sys.exit(0)
         elif o == "-c" or o == "--city":
             city = a;
+        else:
+            assert False, "unhandled option"
 
     if not city:
         help()
@@ -73,7 +77,8 @@ def main():
         daemonize(city, units);
     else:
         weather = getWeatherData(city, units)
-        printTemp(weather, units)
+        weather = weatherString(weather, units)
+        print(weather)
     return
 
 if __name__ == "__main__":
