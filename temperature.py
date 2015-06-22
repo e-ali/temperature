@@ -40,7 +40,8 @@ def daemonize(city, units):
         forecast = weatherString(weather, units)
         if forecast:
             f.write(forecast)
-        time.sleep(10)
+            f.close()
+        time.sleep(10*60)
     return
 
 def main():
