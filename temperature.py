@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import getopt
 import json
+import os
 import time
 import sys
 import urllib.request
@@ -37,7 +38,7 @@ def weatherString(data, units):
     city = data['name']
 
     weather = city + "'s temperature: " + str(int(temp)) + unitString
-    weather += "| Humidity: " + str(humidity) + "%"
+    weather += " | Humidity: " + str(humidity) + "%"
     return weather
 
 def daemonize(city, units, forecast_file):
